@@ -93,8 +93,6 @@ const quizData = [
     ],
     answer: 0
   },
-
-  // Perguntas sobre os membros do grupo
   { question: "1️⃣1️⃣ Qual característica define Vinicius segundo o perfil do grupo?",
     options: [
       "Ouvinte e analítico",
@@ -164,31 +162,38 @@ const timerElement = document.getElementById("timer");
 let currentQuestion = 0;
 let score = 0;
 let timer;
-let timeLeft = 15;
+let timeLeft = 25; // Tempo total para responder
 
 function loadQuestion() {
   feedback.textContent = "";
   resultContainer.innerHTML = "";
-  timeLeft = 15;
+  timeLeft = 25;
 
   const questionData = quizData[currentQuestion];
   progressBar.style.width = `${((currentQuestion + 1) / quizData.length) * 100}%`;
 
-  quizContainer.innerHTML = `
-    <div class="question fade-in">${questionData.question}</div>
-    <div class="options">
-      ${questionData.options
-        .map((option, i) => `<button data-index="${i}">${option}</button>`)
-        .join("")}
-    </div>
-  `;
+  // Fade-out suave antes de trocar
+  quizContainer.style.opacity = 0;
 
-  document.querySelectorAll(".options button").forEach((btn, i) => {
-    btn.addEventListener("click", () => checkAnswer(i, btn));
-    setTimeout(() => btn.classList.add("show"), i * 150);
-  });
+  setTimeout(() => {
+    quizContainer.innerHTML = `
+      <div class="question fade-in">${questionData.question}</div>
+      <div class="options">
+        ${questionData.options
+          .map((option, i) => `<button data-index="${i}">${option}</button>`)
+          .join("")}
+      </div>
+    `;
 
-  startTimer();
+    document.querySelectorAll(".options button").forEach((btn, i) => {
+      btn.addEventListener("click", () => checkAnswer(i, btn));
+      setTimeout(() => btn.classList.add("show"), i * 150);
+    });
+
+    // Fade-in suave
+    quizContainer.style.opacity = 1;
+    startTimer();
+  }, 400);
 }
 
 function startTimer() {
@@ -203,7 +208,7 @@ function startTimer() {
       clearInterval(timer);
       feedback.textContent = "⏳ Tempo esgotado!";
       showCorrectAnswer();
-      setTimeout(nextQuestion, 3000);
+      setTimeout(nextQuestion, 6000);
     }
   }, 1000);
 }
@@ -225,7 +230,7 @@ function checkAnswer(selected, button) {
 
   if (selected === correct) score++;
 
-  setTimeout(nextQuestion, 4000);
+  setTimeout(nextQuestion, 6000); // Mais tempo antes de trocar
 }
 
 function showCorrectAnswer() {
