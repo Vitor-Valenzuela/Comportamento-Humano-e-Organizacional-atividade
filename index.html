@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bem-vindo ao Quiz</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="welcome-container fade-in">
+    <h2>Bem-vindos ao Quiz!</h2>
+    <p>Participantes:<br>Vitor Alex, Djavan Gabriel, Vinicius Pereira, Adriana Vilasantea</p>
+    <button class="start-btn" onclick="startQuiz()">Começar Quiz</button>
+  </div>
+
+  <script>
+    function startQuiz() {
+      const welcome = document.querySelector(".welcome-container");
+      welcome.classList.add("fade-out");
+      setTimeout(() => {
+        window.location.href = "quiz.html";
+      }, 800);
+    }
+  </script>
+</body>
+</html>
